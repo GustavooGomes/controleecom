@@ -14,9 +14,3 @@ body, html {
 .iframe-container.active {
     display: block;
 }
-iframe {
-    width: 1920px;
-    height: 1080px;
-    border: none;
-    clear: both;
-}
