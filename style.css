@@ -14,3 +14,9 @@ body, html {
 .iframe-container.active {
     display: block;
 }
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    clear: both;
+}
