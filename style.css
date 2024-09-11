@@ -22,7 +22,17 @@ iframe {
 }
 .image-container {
     background-color: black;
-    align-items: center;
     width: 1700px;
     height: 1700px;
 }
+#image1 {
+    background-color: black;
+    width: 1700px;
+    height: 1700px;
+}
+#image2 {
+    background-color: black;
+    width: 1700px;
+    height: 1700px;
+}
+
