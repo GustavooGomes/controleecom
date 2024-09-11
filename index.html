@@ -119,10 +119,10 @@
             'Carregando informações do dashboard de <span class="dashboard-vendas">Vendas</span>...',
             'Carregando informações do dashboard de <span class="dashboard-ruptura">Ruptura</span>...',
             'Quase lá...',
-            'Pronto'
+            'Pronto!'
         ];
         let loadingIndex = 0;
-
+        preloadIframes();
         function switchIframe() {
             const containers = document.querySelectorAll('.iframe-container, .image-container');
             containers.forEach((container, index) => {
