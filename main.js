@@ -62,9 +62,9 @@
     });
 }
 
-        setInterval(switchIframe, 60000); // Alterna a cada 30 segundos
+        setInterval(switchIframe, 120000); // Alterna a cada 30 segundos
 
-        setInterval(showWarning, 600000); // Mostra o aviso a cada 5 minutos
+        setInterval(showWarning, 12000000); // Mostra o aviso a cada 5 minutos
 
         window.onload = function() {
             document.getElementById('iframe1').classList.add('active');
