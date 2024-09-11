@@ -22,8 +22,7 @@ iframe {
 }
 .image-container {
     background-color: black;
-    display: block;
-    text-align: center;
+    align-items: center;
     width: 1700px;
     height: 1700px;
 }
