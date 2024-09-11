@@ -28,10 +28,88 @@
         .active {
             display: block;
         }
+        .loading-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 2em;
+            z-index: 2000;
+            flex-direction: column;
+            transition: opacity 1s ease-out;
+        }
+        .loading-icon {
+            margin-top: 20px;
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .background-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(128, 128, 128, 1); /* Tela cinza */
+            z-index: 1500;
+        }
+        .loading-text {
+            margin-top: 20px;
+        }
+        .dashboard-vendas {
+            color: #3498db; /* Azul */
+        }
+        .dashboard-ruptura {
+            color: #e74c3c; /* Vermelho */
+        }
+        .dashboard-logistica {
+            color: #2ecc71; /* Verde */
+        }
+        .image-slider {
+            display: flex;
+            margin-top: 50px; /* Ajuste a posição vertical */
+            overflow: hidden;
+            width: 100%;
+            position: absolute;
+            bottom: 20px; /* Ajuste a posição vertical */
+        }
+        .image-slider img {
+            width: 150px; /* Ajuste o tamanho conforme necessário */
+            height: auto;
+            margin-right: 20px; /* Espaçamento entre as imagens */
+            animation: slide 10s linear infinite;
+        }
+        @keyframes slide {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(calc(100% + 20px)); } /* Vai até o fim da tela */
+        }
     </style>
 
     <script>
         let currentIframe = 1;
+        let loadingMessages = [
+            'Carregando informações do dashboard de <span class="dashboard-vendas">Vendas</span>...',
+            'Carregando informações do dashboard de <span class="dashboard-ruptura">Ruptura</span>...',
+            'Carregando informações do dashboard de <span class="dashboard-logistica">Logística</span>...',
+            'Pronto!'
+        ];
+        let loadingIndex = 0;
 
         function switchIframe() {
             const containers = document.querySelectorAll('.iframe-container, .image-container');
@@ -51,6 +129,29 @@
             }, 5000); // 5 segundos para reiniciar a página
         }
 
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const backgroundScreen = document.getElementById('background-screen');
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                backgroundScreen.style.display = 'none';
+            }, 1000); // Tempo para a transição de opacidade
+        }
+
+        function iframeLoaded() {
+            hideLoadingScreen();
+        }
+
+        function updateLoadingText() {
+            const loadingText = document.getElementById('loading-text');
+            loadingText.innerHTML = loadingMessages[loadingIndex];
+            loadingIndex++;
+            if (loadingIndex >= loadingMessages.length) {
+                setTimeout(hideLoadingScreen, 1000); // Esconde a tela de carregamento após a última mensagem
+            }
+        }
+
         setInterval(switchIframe, 30000); // Alterna a cada 30 segundos
 
         setInterval(showWarning, 600000); // Mostra o aviso a cada 5 minutos
@@ -58,10 +159,13 @@
         window.onload = function() {
             document.getElementById('iframe1').classList.add('active');
             enterFullscreen();
+            updateLoadingText(); // Inicializa o texto de carregamento imediatamente
+            setInterval(updateLoadingText, 5000); // Atualiza o texto de carregamento a cada 5 segundos
         }
 
         function enterFullscreen() {
             const iframe = document.querySelector('.iframe-container.active iframe');
+            iframe.onload = iframeLoaded;
             if (iframe.requestFullscreen) {
                 iframe.requestFullscreen();
             } else if (iframe.mozRequestFullScreen) { // Firefox
@@ -78,6 +182,25 @@
     <div id="warning" class="warning">
         A página será reiniciada em 5 segundos para atualização de dados!
     </div>
+    <div id="loading-screen" class="loading-screen">
+        <div id="loading-text" class="loading-text"></div>
+        <div class="loading-icon"></div>
+        <div class="image-slider">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+        </div>
+    </div>
+    <div id="background-screen" class="background-screen"></div>
     <div id="iframe1" class="iframe-container">
         <iframe title="Dashboard - Vendas" src="https://app.powerbi.com/view?r=eyJrIjoiNDczMTVlZmMtMGYxOC00NmM1LWFjYWUtNGRjZTNiZTJiYzUwIiwidCI6ImVmMjE1YTExLTk2ZTUtNDIwMy04YjRlLWE4YWUxYmJmY2M0MyJ9" allowFullScreen="true"></iframe>
     </div>
