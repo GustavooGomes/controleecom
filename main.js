@@ -75,3 +75,9 @@
         function nextIframe() {
             switchIframe();
         }
+
+document.getElementById('stop-button').addEventListener('click', function() {
+            isScrolling = false; // Para o rolamento
+            clearInterval(switchInterval); // Limpa o intervalo de rolamento
+            clearInterval(warningInterval); // Limpa o intervalo de aviso
+        });
