@@ -164,31 +164,29 @@
             }
         }
 
+        function preloadIframes() {
+    const iframes = document.querySelectorAll('iframe');
+    let loadedCount = 0;
+    iframes.forEach(iframe => {
+        iframe.onload = () => {
+            loadedCount++;
+            if (loadedCount === iframes.length) {
+                iframeLoaded();
+            }
+        };
+    });
+}
+
         setInterval(switchIframe, 30000); // Alterna a cada 30 segundos
 
         setInterval(showWarning, 600000); // Mostra o aviso a cada 5 minutos
 
         window.onload = function() {
             document.getElementById('iframe1').classList.add('active');
-            enterFullscreen();
+            preloadIframes();
             updateLoadingText(); // Inicializa o texto de carregamento imediatamente
             setInterval(updateLoadingText, 5000); // Atualiza o texto de carregamento a cada 5 segundos
         }
-
-        function enterFullscreen() {
-            const iframe = document.querySelector('.iframe-container.active iframe');
-            iframe.onload = iframeLoaded;
-            if (iframe.requestFullscreen) {
-                iframe.requestFullscreen();
-            } else if (iframe.mozRequestFullScreen) { // Firefox
-                iframe.mozRequestFullScreen();
-            } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                iframe.webkitRequestFullscreen();
-            } else if (iframe.msRequestFullscreen) { // IE/Edge
-                iframe.msRequestFullscreen();
-            }
-        }
-
         function nextIframe() {
             switchIframe();
         }
