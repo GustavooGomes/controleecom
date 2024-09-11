@@ -6,6 +6,23 @@
     <link rel="stylesheet" href="style.css">
     <title>CONTROLE E-COM</title>
 
+    <style>
+        .warning {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 0, 0, 0.5); /* Menos opaco */
+            color: white;
+            font-size: 1.5em; /* Menor tamanho de fonte */
+            text-align: center;
+            padding-top: 20%;
+            z-index: 1000;
+        }
+    </style>
+
     <script>
         let currentIframe = 1;
 
@@ -19,7 +36,17 @@
             currentIframe = (currentIframe % iframes.length) + 1;
         }
 
-        setInterval(switchIframe, 30000); // Alterna a cada 1 minuto (60000 milissegundos)
+        function showWarning() {
+            const warning = document.getElementById('warning');
+            warning.style.display = 'block';
+            setTimeout(() => {
+                location.reload();
+            }, 5000); // 5 segundos para reiniciar a página
+        }
+
+        setInterval(switchIframe, 30000); // Alterna a cada 30 segundos
+
+        setInterval(showWarning, 600000); // Mostra o aviso a cada 5 minutos
 
         window.onload = function() {
             document.getElementById('iframe1').classList.add('active');
@@ -27,6 +54,9 @@
     </script>
 </head>
 <body>
+    <div id="warning" class="warning">
+        A página será reiniciada em 5 segundos para atualização das informações!
+    </div>
     <div id="iframe1" class="iframe-container">
         <iframe title="Dashboard - Vendas" src="https://app.powerbi.com/view?r=eyJrIjoiNDczMTVlZmMtMGYxOC00NmM1LWFjYWUtNGRjZTNiZTJiYzUwIiwidCI6ImVmMjE1YTExLTk2ZTUtNDIwMy04YjRlLWE4YWUxYmJmY2M0MyJ9" allowFullScreen="true"></iframe>
     </div>
