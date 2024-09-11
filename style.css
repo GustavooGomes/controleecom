@@ -20,19 +20,4 @@ iframe {
     border: none;
     clear: both;
 }
-.image-container {
-    background-color: black;
-    width: 1700px;
-    height: 1700px;
-}
-#image1 {
-    background-color: black;
-    width: 2000px;
-    height: 2000px;
-}
-#image2 {
-    background-color: black;
-    width: 2000px;
-    height: 2000px;
-}
 
