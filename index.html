@@ -7,64 +7,6 @@
     <link rel="stylesheet" href="style.css">
     <title>CONTROLE E-COM</title>
 
-    <script>
-    let currentIframe = 1;
-let loadingMessages = [
-    'Carregando informações do dashboard de <span class="dashboard-vendas">Vendas</span>...',
-    'Carregando informações do dashboard de <span class="dashboard-ruptura">Ruptura</span>...',
-    'Carregando informações do dashboard de <span class="dashboard-logistica">Logística</span>...',
-    'Pronto!'
-];
-let loadingIndex = 0;
-
-function switchIframe() {
-    const containers = document.querySelectorAll('.iframe-container, .image-container');
-    containers.forEach((container, index) => {
-        container.classList.remove('active');
-    });
-
-    containers[currentIframe - 1].classList.add('active');
-    currentIframe = (currentIframe % containers.length) + 1;
-}
-
-function showWarning() {
-    const warning = document.getElementById('warning');
-    warning.style.display = 'block';
-    setTimeout(() => {
-        location.reload();
-    }, 5000); // 5 segundos para reiniciar a página
-}
-
-function hideLoadingScreen() {
-    const loadingScreen = document.getElementById('loading-screen');
-    const backgroundScreen = document.getElementById('background-screen');
-    loadingScreen.style.opacity = '0';
-    setTimeout(() => {
-        loadingScreen.style.display = 'none';
-        backgroundScreen.style.display = 'none';
-    }, 1000); // Tempo para a transição de opacidade
-}
-
-function iframeLoaded() {
-    hideLoadingScreen();
-}
-
-function updateLoadingText() {
-    const loadingText = document.getElementById('loading-text');
-    loadingText.innerHTML = loadingMessages[loadingIndex];
-    loadingIndex++;
-    if (loadingIndex >= loadingMessages.length) {
-        setTimeout(hideLoadingScreen, 1000); // Esconde a tela de carregamento após a última mensagem
-    }
-}
-
-setInterval(switchIframe, 30000); // Alterna a cada 30 segundos
-setInterval(showWarning, 600000); // Mostra o aviso a cada 5 minutos
-
-function nextIframe() {
-    switchIframe();
-}
-</script>
     <style>
         .warning {
             display: none;
@@ -170,6 +112,87 @@ function nextIframe() {
             z-index: 3000;
         }
     </style>
+
+    <script>
+        let currentIframe = 1;
+        let loadingMessages = [
+            'Carregando informações do dashboard de <span class="dashboard-vendas">Vendas</span>...',
+            'Carregando informações do dashboard de <span class="dashboard-ruptura">Ruptura</span>...',
+            'Carregando informações do dashboard de <span class="dashboard-logistica">Logística</span>...',
+            'Pronto!'
+        ];
+        let loadingIndex = 0;
+
+        function switchIframe() {
+            const containers = document.querySelectorAll('.iframe-container, .image-container');
+            containers.forEach((container, index) => {
+                container.classList.remove('active');
+            });
+
+            containers[currentIframe - 1].classList.add('active');
+            currentIframe = (currentIframe % containers.length) + 1;
+        }
+
+        function showWarning() {
+            const warning = document.getElementById('warning');
+            warning.style.display = 'block';
+            setTimeout(() => {
+                location.reload();
+            }, 5000); // 5 segundos para reiniciar a página
+        }
+
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const backgroundScreen = document.getElementById('background-screen');
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                backgroundScreen.style.display = 'none';
+            }, 1000); // Tempo para a transição de opacidade
+        }
+
+        function iframeLoaded() {
+            hideLoadingScreen();
+        }
+
+        function updateLoadingText() {
+            const loadingText = document.getElementById('loading-text');
+            loadingText.innerHTML = loadingMessages[loadingIndex];
+            loadingIndex++;
+            if (loadingIndex >= loadingMessages.length) {
+                setTimeout(hideLoadingScreen, 1000); // Esconde a tela de carregamento após a última mensagem
+            }
+        }
+
+        setInterval(switchIframe, 30000); // Alterna a cada 30 segundos
+
+        setInterval(showWarning, 600000); // Mostra o aviso a cada 5 minutos
+
+        window.onload = function() {
+            document.getElementById('iframe1').classList.add('active');
+            enterFullscreen();
+            updateLoadingText(); // Inicializa o texto de carregamento imediatamente
+            setInterval(updateLoadingText, 5000); // Atualiza o texto de carregamento a cada 5 segundos
+        }
+
+        function enterFullscreen() {
+            const iframe = document.querySelector('.iframe-container.active iframe');
+            iframe.onload = iframeLoaded;
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.mozRequestFullScreen) { // Firefox
+                iframe.mozRequestFullScreen();
+            } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) { // IE/Edge
+                iframe.msRequestFullscreen();
+            }
+        }
+
+        function nextIframe() {
+            switchIframe();
+        }
+    </script>
 </head>
 <body>
     <div id="warning" class="warning">
@@ -179,6 +202,7 @@ function nextIframe() {
         <div id="loading-text" class="loading-text"></div>
         <div class="loading-icon"></div>
         <div class="image-slider">
+            <img src="loading-image.png" alt="Loading Image">
             <img src="loading-image.png" alt="Loading Image">
             <img src="loading-image.png" alt="Loading Image">
             <img src="loading-image.png" alt="Loading Image">
