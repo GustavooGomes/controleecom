@@ -99,6 +99,18 @@
             0% { transform: translateX(-100%); }
             100% { transform: translateX(calc(100% + 20px)); } /* Vai até o fim da tela */
         }
+        .next-button {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 3000;
+        }
     </style>
 
     <script>
@@ -107,10 +119,9 @@
             'Carregando informações do dashboard de <span class="dashboard-vendas">Vendas</span>...',
             'Carregando informações do dashboard de <span class="dashboard-ruptura">Ruptura</span>...',
             'Carregando informações do dashboard de <span class="dashboard-logistica">Logística</span>...',
-            'Quase lá!'
+            'Pronto!'
         ];
         let loadingIndex = 0;
-        let iframesLoaded = 0;
 
         function switchIframe() {
             const containers = document.querySelectorAll('.iframe-container, .image-container');
@@ -141,10 +152,7 @@
         }
 
         function iframeLoaded() {
-            iframesLoaded++;
-            if (iframesLoaded === 3) { // Verifica se todos os iframes foram carregados
-                hideLoadingScreen();
-            }
+            hideLoadingScreen();
         }
 
         function updateLoadingText() {
@@ -168,20 +176,21 @@
         }
 
         function enterFullscreen() {
-            const iframes = document.querySelectorAll('.iframe-container iframe');
-            iframes.forEach(iframe => {
-                iframe.onload = iframeLoaded;
-            });
-            const activeIframe = document.querySelector('.iframe-container.active iframe');
-            if (activeIframe.requestFullscreen) {
-                activeIframe.requestFullscreen();
-            } else if (activeIframe.mozRequestFullScreen) { // Firefox
-                activeIframe.mozRequestFullScreen();
-            } else if (activeIframe.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                activeIframe.webkitRequestFullscreen();
-            } else if (activeIframe.msRequestFullscreen) { // IE/Edge
-                activeIframe.msRequestFullscreen();
+            const iframe = document.querySelector('.iframe-container.active iframe');
+            iframe.onload = iframeLoaded;
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.mozRequestFullScreen) { // Firefox
+                iframe.mozRequestFullScreen();
+            } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) { // IE/Edge
+                iframe.msRequestFullscreen();
             }
+        }
+
+        function nextIframe() {
+            switchIframe();
         }
     </script>
 </head>
@@ -193,6 +202,13 @@
         <div id="loading-text" class="loading-text"></div>
         <div class="loading-icon"></div>
         <div class="image-slider">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
+            <img src="loading-image.png" alt="Loading Image">
             <img src="loading-image.png" alt="Loading Image">
             <img src="loading-image.png" alt="Loading Image">
             <img src="loading-image.png" alt="Loading Image">
@@ -210,5 +226,6 @@
     <div id="iframe3" class="iframe-container">
         <iframe title="Dashboard - Logística" src="https://app.powerbi.com/view?r=eyJrIjoiMjQwZTMwN2UtN2Q1NS00MzgxLWIwMzQtODFmOGM4MGQ2OTAxIiwidCI6ImVmMjE1YTExLTk2ZTUtNDIwMy04YjRlLWE4YWUxYmJmY2M0MyJ9" allowFullScreen="true"></iframe>
     </div>
+    <button class="next-button" onclick="nextIframe()">Próximo</button>
 </body>
 </html>
