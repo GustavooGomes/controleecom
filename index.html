@@ -60,14 +60,15 @@
         }
 
         function enterFullscreen() {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
-            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
-                document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                document.documentElement.webkitRequestFullscreen();
-            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
-                document.documentElement.msRequestFullscreen();
+            const iframe = document.querySelector('.iframe-container.active iframe');
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.mozRequestFullScreen) { // Firefox
+                iframe.mozRequestFullScreen();
+            } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) { // IE/Edge
+                iframe.msRequestFullscreen();
             }
         }
     </script>
