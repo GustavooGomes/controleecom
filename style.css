@@ -147,3 +147,6 @@ iframe {
     border-radius: 5px;
     cursor: pointer;
 }
+.dashboard-meli {
+    color: yellow;
+}
