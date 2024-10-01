@@ -5,6 +5,7 @@ let loadingMessages = [
     'Carregando informações do dashboard de <span class="dashboard-logistica">Logística</span>...',
     'Carregando informações do dashboard de <span class="dashboard-ruptura">Ruptura</span>...',
     'Carregando informações do dashboard do <span class="dashboard-vendas">Varejo</span>...',
+    'Carregando informações do dashboard do <span class="dashboard-meli">Mercado Livre</span>...',
     'Carregando calendário de <span class="dashboard-logistica">Coleções</span>...',
     'Pronto!'
 ];
@@ -20,13 +21,7 @@ function switchIframe() {
     currentIframe = (currentIframe % containers.length) + 1;
 }
 
-function showWarning() {
-    const warning = document.getElementById('warning');
-    warning.style.display = 'block';
-    setTimeout(() => {
-        location.reload();
-    }, 5000); // 5 segundos para reiniciar a página
-}
+
 
 function hideLoadingScreen() {
     const loadingScreen = document.getElementById('loading-screen');
@@ -67,13 +62,12 @@ iframe.onload = () => {
 
 var nextFrame = setInterval(switchIframe, timeOut)
 
-setInterval(showWarning, 1800000); // Mostra o aviso a cada 5 minutos
 
 window.onload = function() {
     document.getElementById('iframe1').classList.add('active');
     preloadIframes();
     updateLoadingText(); // Inicializa o texto de carregamento imediatamente
-    setInterval(updateLoadingText, 5000); // Atualiza o texto de carregamento a cada 5 segundos
+    setInterval(updateLoadingText, 3000); // Atualiza o texto de carregamento a cada 5 segundos
 }
 function nextIframe() {
     switchIframe();
